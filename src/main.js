@@ -4,7 +4,11 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 
+import sdk from './app/sdk' 
+
 Vue.config.productionTip = false
+
+Vue.use(sdk);
 
 new Vue({
   router,

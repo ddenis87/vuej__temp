@@ -18,7 +18,7 @@ Vue.use(VueRouter)
   {
     path: '/symbol',
     name: 'Symbol',
-    component: () => import('../views/Symbol.vue')
+    component: () => import('../views/symbol.vue')
   }
 ]
 
