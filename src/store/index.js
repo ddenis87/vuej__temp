@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    storeStack: {} // [['b': ['0','0']]],
+    storeStackStream: {}, // [['b': ['0','0']]],
+    storeStack: {}
   },
   mutations: {
+    setStoreStackStream(state, arrStack) {
+      state.storeStackStream = JSON.parse(arrStack);
+    },
     setStoreStack(state, arrStack) {
-      state.storeStack = JSON.parse(arrStack);
+      state.storeStack = arrStack
     }
   },
   actions: {

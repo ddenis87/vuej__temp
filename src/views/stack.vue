@@ -1,9 +1,9 @@
 <template>
   <div class="steck">
     <div class="control">
-      <button class="control__button" @click="startGetStack">Получить стек</button>
-      <button class="control__button" @click="startGetStack">Подписаться</button>
-      <button class="control__button" @click="stopGetStack">Отписаться</button>
+      <button class="control__button" @click="getStack">Получить стек</button>
+      <button class="control__button" @click="startGetStream">Подписаться</button>
+      <button class="control__button" @click="stopGetStream">Отписаться</button>
     </div>
     <div class="data">
       <div class="header-bid header-l1">Bid</div>
@@ -17,13 +17,13 @@
       <div class="header-ask-price header-l2">Price</div>
       <div class="header-ask-total header-l2">Total</div>
       <div class="data-body">
-        <div class="body-bid-amount"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrData.b" :key="'ba-' + index">{{ (+row[0]).toFixed(5) }}</li></ul></div>
-        <div class="body-bid-price"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrData.b" :key="'bp-' + index">{{ (+row[1]).toFixed(5) }}</li></ul></div>
-        <div class="body-bid-total"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrData.b" :key="'bt-' + index">{{ (row[0] * row[1]).toFixed(5) }}</li></ul></div>
+        <div class="body-bid-amount"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrDataStream.b" :key="'ba-' + index">{{ (+row[0]).toFixed(5) }}</li></ul></div>
+        <div class="body-bid-price"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrDataStream.b" :key="'bp-' + index">{{ (+row[1]).toFixed(5) }}</li></ul></div>
+        <div class="body-bid-total"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrDataStream.b" :key="'bt-' + index">{{ (row[0] * row[1]).toFixed(5) }}</li></ul></div>
 
-        <div class="body-ask-amount"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrData.a" :key="'aa-' + index">{{ (+row[0]).toFixed(5) }}</li></ul></div>
-        <div class="body-ask-price"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrData.a" :key="'ap-' + index">{{ (+row[1]).toFixed(5) }}</li></ul></div>
-        <div class="body-ask-total"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrData.a" :key="'at-' + index">{{ (row[0] * row[1]).toFixed(5) }}</li></ul></div>
+        <div class="body-ask-amount"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrDataStream.a" :key="'aa-' + index">{{ (+row[0]).toFixed(5) }}</li></ul></div>
+        <div class="body-ask-price"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrDataStream.a" :key="'ap-' + index">{{ (+row[1]).toFixed(5) }}</li></ul></div>
+        <div class="body-ask-total"><ul class="data-list"><li class="data-list__item" v-for="(row, index) in arrDataStream.a" :key="'at-' + index">{{ (row[0] * row[1]).toFixed(5) }}</li></ul></div>
       </div>
     </div>
     <div>{{ arrData }}</div>
@@ -36,21 +36,25 @@ export default {
   name: 'Stack',
   data() {
     return {
-      // arrData: [],
+      arrDataStack: {},
     }
   },
   computed: {
+    arrDataStream: function() { return this.$store.state.storeStackStream },
     arrData: function() { return this.$store.state.storeStack },
   },
   created() {
 
   },
   methods: {
-    startGetStack() {
-      this.$startGetStack({name: 'Denis'})
+    getStack() {
+      this.$getStack({socket: 'https://api.punkapi.com/v2/beers?page=1&limit=25'});
     },
-    stopGetStack() {
-      this.$stopGetStack();
+    startGetStream() {
+      this.$startGetStream({socket: 'wss://stream.binance.com:9443/ws/bnbbtc@depth@1000ms'});
+    },
+    stopGetStream() {
+      this.$stopGetStream();
     }
   }
 }
